@@ -13,9 +13,6 @@ public class Task03 {
         /**
          * Po wykonaniu zadania zmień typ referencji na zdefiniowaną klasę abstrakcyjną w poniższych trzeh wierszach
          */
-//        CellPhone superZi = new CellPhone(4000, "Szamsuk", "1678876", 12_000_000);
-//        Laptop iDaisy = new Laptop(8000, "XYZ-100 RW", 120, "Daisy Co");
-//        SmartWatch handyWatch = new SmartWatch("Quququ", 1000, "black");
         Device superZi = new CellPhone(4000, "Szamsuk", "1678876", 12_000_000);
         Device iDaisy = new Laptop(8000, "XYZ-100 RW", 120, "Daisy Co");
         Device handyWatch = new SmartWatch("Quququ", 1000, "black");
