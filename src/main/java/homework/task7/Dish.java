@@ -1,5 +1,4 @@
 package homework.task7;
-
 /**
  * 1. Zdefiniuj klasy implementujące interfejs Ingredient, która opisuje wagę i kaloryczność składnika dania
  *    - Cheese
@@ -19,22 +18,39 @@ package homework.task7;
  * 1. Zdefiniuj osobno interfejs Valuable z metodą abstrakcyjną zwracająca cenę składnika, oraz interfejs ValuableIngredient łączący oba interfejsy
  * 2. Przy obliczaniu ceny dania należy operatorem instanceof wykryć, który składnik ma cenę
  */
-public class Task07 {
-    public static void main(String[] args) {
+public class Dish implements Ingredient, ValuableIngredient{
+    Ingredient[] ingredients;
 
-        Ingredient sernik = new Cake("Sernik", 50, 50);
-        Ingredient serTopiony = new Cheese("Ser topiony", 50, 5);
-        Ingredient jajkoNaMiekko = new Egg("Jajko na miękko", 25, 10);
-        Ingredient pomidorKoktajlowy = new Tomato("Pomidor koktajlowy", 60, 7);
-        Ingredient solMorska = new Salt("Sól morska", 0.01);
-        Dish dish1 = new Dish(new Ingredient[]{sernik, serTopiony, jajkoNaMiekko});
-        System.out.println("Danie nr1, waga: " + dish1.weight() + ", kaloryczność:" + dish1.calories() + ", cena całkowita dania: " + dish1.price());
+    public Dish(Ingredient[] ingredient) {
+        this.ingredients = ingredient;
+    }
 
-        Ingredient jajko = new Egg("Jajko", 25, 2);
-        Ingredient szczyptaSoli = new Salt("Szczypta soli", 0.02);
-        Dish jajecznica = new Dish(new Ingredient[]{jajko, szczyptaSoli});
-        Tomato pomidorPokrojony = new Tomato("Pomidor pokrojony", 50, 8);
-        Dish jajecznicaZPomidorem = new Dish(new Ingredient[]{jajecznica, pomidorPokrojony});
-        System.out.println("Danie nr2, waga: " + jajecznicaZPomidorem.weight() + ", kaloryczność: " + jajecznicaZPomidorem.calories() + ", cena całkowita dania: " + jajecznicaZPomidorem.price());
+    @Override
+    public double weight() {
+        double totalWeight = 0;
+        for(Ingredient a: ingredients){
+            totalWeight += a.weight();
+        }
+        return totalWeight;
+    }
+
+    @Override
+    public double calories() {
+        double totalCalories = 0;
+        for(Ingredient a: ingredients){
+            totalCalories += a.calories();
+        }
+        return totalCalories;
+    }
+
+    @Override
+    public double price() {
+        double totalPrice = 0;
+        for(Ingredient a: ingredients){
+            if(a instanceof ValuableIngredient){
+                totalPrice += ((ValuableIngredient) a).price();
+            }
+        }
+        return totalPrice;
     }
 }

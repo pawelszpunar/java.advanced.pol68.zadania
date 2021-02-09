@@ -1,15 +1,13 @@
 package homework.task7;
 
-public class Egg implements Ingredient, ValuableIngredient{
-    private static final double CALORIES_PER_GRAM = 1.5;
+public class Salt implements Ingredient, Valuable{
+    private static final double CALORIES_PER_GRAM = 0;
     private final double weight;
     private final String name;
-    private final double price;
 
-    public Egg(String name, double weight, double price) {
+    public Salt(String name, double weight) {
         this.weight = weight;
         this.name = name;
-        this.price = price;
     }
 
     @Override
@@ -24,7 +22,7 @@ public class Egg implements Ingredient, ValuableIngredient{
 
     @Override
     public String toString() {
-        return "Egg{" +
+        return "Salt{" +
                 "weight=" + weight +
                 ", name='" + name + '\'' +
                 '}';
@@ -32,6 +30,6 @@ public class Egg implements Ingredient, ValuableIngredient{
 
     @Override
     public double price() {
-        return price;
+        return 0;
     }
 }
