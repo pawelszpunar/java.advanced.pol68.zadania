@@ -14,8 +14,17 @@ package homework.task5;
  *
  */
 public class GasCar {
-    double fuelLevel;
-    double fuelCapacity;
+    private double fuelLevel;
+    final double fuelCapacity;
+
+    public GasCar(double fuelCapacity) {
+        this.fuelLevel = 0;
+        this.fuelCapacity = fuelCapacity;
+    }
+
+    public double getFuelLevel() {
+        return fuelLevel;
+    }
 
     /**
      * Metoda tankowania, powinna zmieniać poziom paliwa w fuelLevel
@@ -35,6 +44,21 @@ public class GasCar {
      * wywołano metodę refuel(5) i zwrócona wartość wynosi 5, gdyż cała porcja zmieściła się w baku
      */
     public double refuel(double fuel){
+        //return 0;
+        if(fuel <= 0){
+            return 0;
+        }
+        if(fuel <= (fuelCapacity - fuelLevel)){
+            fuelLevel += fuel;
+            return fuel;
+        }
+        if(fuel > (fuelCapacity - fuelLevel)) {
+            fuelLevel += fuelCapacity - fuelLevel;
+            return fuelCapacity - fuelLevel;
+        }
+        if(fuelCapacity == fuelLevel){
+            return 0;
+        }
         return 0;
     }
 
@@ -54,6 +78,17 @@ public class GasCar {
      * wywołano metodę consume(2) i otrzymano wartość 2, gdyż w baku było 10, więc zużyto 2 i pozostało jeszcze 8
      */
     public double consume(double fuel){
+        if(fuel <= 0){
+            return 0;
+        }
+        if(fuel >= fuelLevel){
+            fuelLevel = 0;
+            return fuelLevel;
+        }
+        if(fuel < fuelLevel){
+            fuelLevel -= fuel;
+            return fuel;
+        }
         return 0;
     }
 }
