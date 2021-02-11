@@ -26,6 +26,25 @@ package homework.task6;
  */
 public class Task06 {
     public static void main(String[] args) {
+        EmailAddress mail1 = EmailAddress.of("test01mail@doma1n.coco");
+        System.out.println(mail1);
+        EmailAddress mail2 = EmailAddress.of("@domain.coco");
+        System.out.println(mail2);
 
+        System.out.println(mail1.username());
+        System.out.println(mail1.host());
+        System.out.println(mail1.topDomain());
+
+        HumanTemperature temp = HumanTemperature.of(37);
+        System.out.println(temp.get());
+        System.out.println(temp.getKelvin());
+        System.out.println(temp.getFahrenheit());
+        System.out.println(temp.isNormal());
+        System.out.println(temp.format());
+
+        Pesel pesel1 = Pesel.of("75121968629");
+        System.out.println(pesel1.isFemale());
+        System.out.println(pesel1.isMale());
+        System.out.println(pesel1.birthDate());
     }
 }

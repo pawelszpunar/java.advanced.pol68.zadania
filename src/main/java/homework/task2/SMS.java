@@ -17,9 +17,6 @@ public class SMS extends Message{
 
     @Override
     public String send() {
-        if(canSend(super.getContent()) && phoneNumber.matches("[0-9]+") && phoneNumber.length() == 9) {
-            return  "SMS o treści " + super.getContent() + " został wysłany na adres " + phoneNumber + ".";
-        }
         String error = "SMS nie może zostać wysłany.";
         if(super.getContent() == null) {
             return error + " Brak treści";
@@ -27,6 +24,11 @@ public class SMS extends Message{
         if(phoneNumber.length() != 9 || phoneNumber.matches("[0-9]+")) {
             return error + " Niepoprawny numer telefonu";
         }
+
+        if(super.canSend() && phoneNumber.matches("[0-9]+") && phoneNumber.length() == 9) {
+            return  "SMS o treści " + super.getContent() + " został wysłany na adres " + phoneNumber + ".";
+        }
+
         return error;
     }
 

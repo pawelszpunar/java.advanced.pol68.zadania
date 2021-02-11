@@ -9,7 +9,7 @@ abstract public class Message {
 
     abstract public String send();
 
-    boolean canSend(String content){
+    boolean canSend(){
         if(content == null || content.isEmpty() || content.length() < 5){
             return false;
         }
