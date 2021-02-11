@@ -1,6 +1,6 @@
 package homework.task7;
 
-public class Tomato implements Ingredient, ValuableIngredient{
+public class Tomato implements ValuableIngredient{
     private static final double CALORIES_PER_GRAM = 0.5;
     private final double weight;
     private final String name;

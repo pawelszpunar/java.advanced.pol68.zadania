@@ -18,7 +18,7 @@ package homework.task7;
  * 1. Zdefiniuj osobno interfejs Valuable z metodą abstrakcyjną zwracająca cenę składnika, oraz interfejs ValuableIngredient łączący oba interfejsy
  * 2. Przy obliczaniu ceny dania należy operatorem instanceof wykryć, który składnik ma cenę
  */
-public class Dish implements Ingredient, ValuableIngredient{
+public class Dish implements ValuableIngredient{
     Ingredient[] ingredients;
 
     public Dish(Ingredient[] ingredient) {
@@ -47,9 +47,7 @@ public class Dish implements Ingredient, ValuableIngredient{
     public double price() {
         double totalPrice = 0;
         for(Ingredient a: ingredients){
-            if(a instanceof ValuableIngredient){
-                totalPrice += ((ValuableIngredient) a).price();
-            }
+            totalPrice += ((ValuableIngredient) a).price();
         }
         return totalPrice;
     }

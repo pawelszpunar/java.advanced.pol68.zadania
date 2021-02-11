@@ -1,6 +1,6 @@
 package homework.task7;
 
-public class Egg implements Ingredient, ValuableIngredient{
+public class Egg implements ValuableIngredient{
     private static final double CALORIES_PER_GRAM = 1.5;
     private final double weight;
     private final String name;

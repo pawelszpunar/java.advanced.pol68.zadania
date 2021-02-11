@@ -1,6 +1,6 @@
 package homework.task7;
 
-public class Salt implements Ingredient, Valuable{
+public class Salt implements Ingredient{
     private static final double CALORIES_PER_GRAM = 0;
     private final double weight;
     private final String name;
@@ -26,10 +26,5 @@ public class Salt implements Ingredient, Valuable{
                 "weight=" + weight +
                 ", name='" + name + '\'' +
                 '}';
-    }
-
-    @Override
-    public double price() {
-        return 0;
     }
 }
