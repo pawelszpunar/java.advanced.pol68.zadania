@@ -1,6 +1,35 @@
 package homework.task10;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
+
+class IllegalArgumentException extends Exception {
+    String address;
+    IllegalArgumentException(String address, String message) {
+        super(message);
+        this.address = address;
+    }
+}
+
+class IllegalUsernameException extends Exception {
+    IllegalUsernameException(String message) {
+        super(message);
+    }
+}
+
+class IllegalHostException extends Exception {
+    String host;
+    IllegalHostException(String message) {
+        super(message);
+    }
+}
+
+class IllegalTopDomainException extends Exception {
+    String host;
+    IllegalTopDomainException(String message) {
+        super(message);
+    }
+}
 
 public class EmailAddress {
     final String address;
@@ -13,9 +42,17 @@ public class EmailAddress {
      * Zaimplementuj metodę, która zwróci obiekt EmailAddress, tylko gdy parametr address jest poprawny
      * jeśli nie to zgłosi wyjątek IllegalArgumentException z komunikatem: address + "is not valid email address!"
      */
-    public static EmailAddress of(String address){
 
-        return null;
+
+
+    public static EmailAddress of(String address) throws IllegalArgumentException {
+
+        //String pattern = "^[A-z0-9][\\dA-z-_.]+@([A-z-]+\\.){1,6}[A-z]{2,6}$";
+        String pattern = "^[A-z][\\dA-z-_.]+@([0-9A-z-]+\\.){0,5}([A-z-]+\\.)+[A-z]{2,6}$";
+        if(!Pattern.matches(pattern,address)){
+            throw new IllegalArgumentException(address, address + " is not valid email address!");
+        }
+        return new EmailAddress(address);
     }
 
     /**
@@ -28,10 +65,41 @@ public class EmailAddress {
      * Obie klasy wyjątków należy samodzielnie zdefiniować
      */
 
-    public static EmailAddress of(String username, String host){
+    public static EmailAddress of(String username, String host) throws IllegalUsernameException, IllegalHostException, IllegalTopDomainException{
+        String patternUsername = "^[A-z][\\dA-z-_.]+";
+        //String patternHost = "([A-z-]+\\.){1,6}[A-z]{2,6}$";
+        String patternHost = "[A-z]+([0-9A-z-]+\\.){0,5}([A-z-]+\\.)+[A-z]{2,6}$";
 
-        return null;
+        String patternTopDomain = "([A-z-]+\\.)+[A-z]{2,6}$";
+
+        if(username == null || !Pattern.matches(patternUsername,username)){
+            throw new IllegalUsernameException("username is not valid!");
+        }
+
+        if(host == null || !Pattern.matches(patternTopDomain,host)){
+            throw new IllegalTopDomainException("top domain is not valid!");
+        }
+
+        if(host == null || !Pattern.matches(patternHost,host)){
+            throw new IllegalHostException("host is not valid!");
+        }
+        return new EmailAddress(username + "@" + host);
+
     }
+
+
+    public static EmailAddress of2(String username, String host) throws IllegalTopDomainException{
+
+        String patternTopDomain = "([A-z-]+\\.)+[A-z]{2,6}$";
+
+        if(host == null || !Pattern.matches(patternTopDomain,host)){
+            throw new IllegalTopDomainException("top domain is not valid!");
+        }
+
+        return new EmailAddress(username + "@" + host);
+
+    }
+
 
     public String get(){
          return address;
