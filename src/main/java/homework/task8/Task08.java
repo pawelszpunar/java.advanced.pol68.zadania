@@ -13,10 +13,10 @@ package homework.task8;
  */
 public class Task08 {
     public static void main(String[] args) {
-//        if (Color.RED.getValue() == 0xF00 && Color.GREEN.getValue() == 0x0F0 && Color.BLUE.getValue() == 0x00F){
-//            System.out.println("OK");
-//        } else {
-//            System.out.println("NO");
-//        }
+        if (Color.RED.getValue() == 0xF00 && Color.GREEN.getValue() == 0x0F0 && Color.BLUE.getValue() == 0x00F){
+            System.out.println("OK");
+        } else {
+            System.out.println("NO");
+        }
     }
 }

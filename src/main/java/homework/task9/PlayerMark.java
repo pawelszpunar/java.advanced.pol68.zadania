@@ -1,4 +1,4 @@
-package homework.task9;
+/*package homework.task9;
 
 public class PlayerMark {
     private final String name;
@@ -15,4 +15,4 @@ public class PlayerMark {
     public String toString() {
         return symbol;
     }
-}
+}*/

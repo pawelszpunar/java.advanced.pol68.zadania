@@ -28,11 +28,11 @@ package homework.task9;
 public class Task09 {
     public static void main(String[] args) {
         GameBoard board = new GameBoard("Anna", "Marek");
-        PlayerMark[] players = board.getMarks(); // po wykonaniu zadania zmień typ referencji players
+        GameBoard.PlayerMark[] players = board.getMarks(); // po wykonaniu zadania zmień typ referencji players
         board.markAt(players[0],0,0);
         board.markAt(players[1], 0, 1);
-        PlayerMark newMark = new PlayerMark("","#"); //po wykonaniu zadania usuń ten wiersz
-        board.markAt(newMark, 0,2);                   //po wykonaniu zadania usuń ten wiersz
+        //PlayerMark newMark = new PlayerMark("","#"); //po wykonaniu zadania usuń ten wiersz
+       // board.markAt(newMark, 0,2);                   //po wykonaniu zadania usuń ten wiersz
         System.out.println(board);
     }
 }

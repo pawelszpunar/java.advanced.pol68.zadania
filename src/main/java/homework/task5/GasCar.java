@@ -53,8 +53,9 @@ public class GasCar {
             return fuel;
         }
         if(fuel > (fuelCapacity - fuelLevel)) {
-            fuelLevel += fuelCapacity - fuelLevel;
-            return fuelCapacity - fuelLevel;
+            double fuelReturn = fuelCapacity - fuelLevel;
+            fuelLevel = fuelCapacity;
+            return fuelReturn;
         }
         if(fuelCapacity == fuelLevel){
             return 0;
@@ -82,8 +83,9 @@ public class GasCar {
             return 0;
         }
         if(fuel >= fuelLevel){
+            fuel = fuelLevel;
             fuelLevel = 0;
-            return fuelLevel;
+            return fuel;
         }
         if(fuel < fuelLevel){
             fuelLevel -= fuel;
