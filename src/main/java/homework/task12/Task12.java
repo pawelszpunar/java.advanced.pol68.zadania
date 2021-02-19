@@ -28,6 +28,15 @@ package homework.task12;
  */
 public class Task12 {
     public static void main(String[] args) {
+        Pizza pizza = new Pizza("mojaPizza");
+        Cake cake = new Cake("ciasto", 10);
+        Tomato tomato = new Tomato("pomidor", 10, 0.5);
+        Cheese cheese = new Cheese("Ser", 20, 2);
+        pizza.addCake(cake);
+        pizza.addCheese(cheese);
+        pizza.addTomato(tomato);
+        System.out.println(pizza.isReady());
+
 
     }
 }
