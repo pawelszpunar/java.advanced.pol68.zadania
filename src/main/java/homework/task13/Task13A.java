@@ -1,6 +1,7 @@
 package homework.task13;
 
-import java.util.Collection;
+import java.util.*;
+
 /**
  * CZESC 1
  * Na podstawie otrzymanej kolekcji miast (obiekty klasy City) stwórz kolejne kolekcje (elementy z kolekcji kopiujemy do nowej):
@@ -33,5 +34,73 @@ public class Task13A {
                 System.out.println(c);
             }
         }
+
+        Map<Integer, Set<String>> latitudeCitiesTest = latitudeCities(cities);
+        System.out.println(latitudeCitiesTest);
+
+        //do poprawy
+//        Iterator<Integer, Set<String>> iterator = latitudeCitiesTest.iterator();
+//        for (int i = 0; i < n && iterator.hasNext(); i++)
+//            out[i] = iterator.next();
+        //System.out.println(latitudeCitiesTest.get(0));
+
+
+    }
+
+    public static Set<String> codes(Collection<City> cities) {
+        Set<String> codes = new TreeSet<>();
+        for(City c: cities){
+            codes.add(c.getCountryCode());
+        }
+        return codes;
+    }
+
+    public static Set<String> citiesInPoland(Collection<City> cities) {
+        Set<String> citiesInPoland = new TreeSet<>();
+        for(City c: cities) {
+            if(c.getCountryCode().equals("PL")) {
+                citiesInPoland.add(c.getName());
+            }
+        }
+        return citiesInPoland;
+    }
+
+    public static Set<String> bigPopulation(Collection<City> cities) {
+        Set<String> bigPopulation = new TreeSet<>();
+        for(City c: cities) {
+            if(c.getPopulation() >= 1_000_000) {
+                bigPopulation.add(c.getName());
+            }
+        }
+        return bigPopulation;
+    }
+
+    public static Map<String, City> countriesAndCity (Collection<City> cities) {
+        Map<String, City> countriesAndCities = new HashMap<>();
+        for(City c: cities) {
+            countriesAndCities.put(c.getName(),c);
+        }
+        return countriesAndCities;
+    }
+
+    //mapę, w której kluczem jest zaokrąglona do liczby całkowitej szerokość geograficza a wartością lista miast o takiej szerokości (***)
+    public static Map<Integer, Set<String>> latitudeCities(Collection<City> cities) {
+        Map<Integer, Set<String>> latitudeCities = new HashMap<>();
+        //kopia kolekcji
+        Collection<City> citiesCopy = new ArrayList<>(cities);
+        //tymczasowa kolekcja Set do weryfikacji niepowtarzalnosci latitude
+        Set<Integer> setTemp = new TreeSet<>();
+        for(City c: cities) {
+            if(setTemp.add((int) c.getLatitude())) {
+                Set<String> citiesWithTheSameLatitude = new TreeSet<>();
+                for(City d: citiesCopy) {
+                    if(((int) c.getLatitude()) == ((int) d.getLatitude())) {
+                        citiesWithTheSameLatitude.add(d.getName());
+                    }
+                }
+                latitudeCities.put((int) c.getLatitude(), citiesWithTheSameLatitude);
+            }
+        }
+        return latitudeCities;
     }
 }
