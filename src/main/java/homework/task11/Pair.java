@@ -10,12 +10,12 @@ public class Pair<T, U> implements Parable{
     }
 
     @Override
-    public int getFirst() {
-        return 0;
+    public T getFirst() {
+        return this.first;
     }
 
     @Override
-    public int getSecond() {
-        return 0;
+    public U getSecond() {
+        return this.second;
     }
 }

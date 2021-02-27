@@ -10,12 +10,9 @@ public class MenuDemo {
         MenuItem loadItem2 = new MenuItem("Wczytaj drugą zmienną", 2);
         MenuItem calcItem = new MenuItem("Oblicz sumę zmiennych", 3);
         MenuItem endItem = new MenuItem("Koniec", 0);
-        Callback loadVar1Callback = new Callback() {
-            @Override
-            public void action() {
-                System.out.println("Podaj liczbę 1:");
-                var1 = scanner.nextInt();
-            }
+        Callback loadVar1Callback = () -> {
+            System.out.println("Podaj liczbę 1:");
+            var1 = scanner.nextInt();
         };
         loadItem1.setCallback(loadVar1Callback);
         loadItem2.setCallback(new Callback() {

@@ -2,7 +2,7 @@ package homework.task11;
 
 public interface Parable<T, U> {
 
-    public int getFirst();
+    public T getFirst();
 
-    public int getSecond();
+    public U getSecond();
 }

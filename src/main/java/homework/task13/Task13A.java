@@ -36,13 +36,31 @@ public class Task13A {
         }
 
         Map<Integer, Set<String>> latitudeCitiesTest = latitudeCities(cities);
-        System.out.println(latitudeCitiesTest);
+        int counter1 = 0;
+        for (Map.Entry<Integer, Set<String>> entry : latitudeCitiesTest.entrySet()) {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+            counter1++;
+            if(counter1 == 5) {
+                break;
+            }
+        }
 
-        //do poprawy
-//        Iterator<Integer, Set<String>> iterator = latitudeCitiesTest.iterator();
-//        for (int i = 0; i < n && iterator.hasNext(); i++)
-//            out[i] = iterator.next();
-        //System.out.println(latitudeCitiesTest.get(0));
+
+        System.out.println("================");
+        //System.out.println(bigPopulation(cities));
+
+        System.out.println(citiesInPolandWithAddedStaraToNowa(cities));
+
+
+//        for(City c: cities){
+//            if (c.getName().equals("Berlin")) {
+//                System.out.println(c.getName() + " -> " + c.getCountryCode());
+//            }
+//
+//        }
+
+
+
 
 
     }
@@ -103,4 +121,92 @@ public class Task13A {
         }
         return latitudeCities;
     }
+
+
+    //usuń z kolekcji cities miasta o populacji mniejszej od 10_000 (*)
+    public static Collection<City> onlyBigPopulation(Collection<City> cities) {
+        Collection<City> citiesWithBigPopulation = cities;
+
+        for(City c: cities) {
+            if(c.getPopulation() < 10_000) {
+                citiesWithBigPopulation.remove(c);
+            }
+        }
+        return citiesWithBigPopulation;
+    }
+
+    //w kolekcji miast o populacji powyżej 1_000_000 usuń miasta niemieckie (*)
+    public static Collection<City> withoutGerCitiesAndBigPopulation(Collection<City> cities) {
+        Collection<City> citiesCopy = cities;
+        Collection<City> output = new ArrayList<>();
+        Iterator<City> iterator = citiesCopy.iterator();
+        while(iterator.hasNext()) {
+            City a = iterator.next();
+            if(!a.getCountryCode().equals("DE")){
+                output.add(a);
+            }
+        }
+        return output;
+
+    }
+
+    //kolekcja miast w Polsce
+
+    public static Collection<City> citiesInPolandCollection(Collection<City> cities) {
+        Collection<City> citiesInPolandCollection = new ArrayList<>();
+        //List<City> citiesInPolandList = List.copyOf(cities);
+        Iterator<City> iterator = cities.iterator();
+        while(iterator.hasNext()){
+            City actualCity = iterator.next();
+            if(actualCity.getCountryCode().equals("PL")) {
+                citiesInPolandCollection.add(actualCity);
+            }
+        }
+        return citiesInPolandCollection;
+    }
+
+
+
+
+
+
+    //w kolekcji miast polskich, za każdym miastem, które w nazwie zawiera słowo Nowa .. dodaj miasto Stara .. np.
+    public static List<City> citiesInPolandWithAddedStaraToNowa(Collection<City> cities) {
+        Collection<City> citiesCopy = cities;
+        //List<City> citiesInPolandList = List.copyOf(citiesInPolandCollection(cities));
+        List<City> citiesInPolandList = new ArrayList<>(citiesInPolandCollection(cities));
+        ListIterator<City> iterator = citiesInPolandList.listIterator();
+        while(iterator.hasNext()){
+            City currentCity = iterator.next();
+            if(currentCity.getName().contains("Nowa")) {
+                City cityStaraToAdd = new City(currentCity.getId(), currentCity.getName().replace("Nowa", "Stara"), currentCity.getLongitude(), currentCity.getLatitude(), currentCity.getCountryCode(), currentCity.getPopulation());
+                iterator.next();
+                iterator.add(cityStaraToAdd);
+            }
+        }
+        return citiesInPolandList;
+    }
+
+    //Nowa Sól -> Stara Sól, pozostałe dane skopiuj z pasującego miasta (**)
+    public static List<City> citiesInPolandWithRelacedNowaToStara(Collection<City> cities) {
+
+        List<City> citiesCopy = new ArrayList<>(cities);
+
+        //Collection<City> citiesCopy = new ArrayList<>(cities);
+        List<City> citiesInPolandList = List.copyOf(citiesInPolandCollection(cities));
+        //ListIterator<City> iterator = citiesInPolandList.listIterator();
+        ListIterator<City> iterator = citiesCopy.listIterator();
+        while(iterator.hasNext()){
+            City currentCity = iterator.next();
+            if(currentCity.getName().contains("Nowa")) {
+                City replacer = new City(currentCity.getId(), currentCity.getName().replace("Nowa", "Stara"), currentCity.getLongitude(), currentCity.getLatitude(), currentCity.getCountryCode(), currentCity.getPopulation());
+                iterator.remove();
+                iterator.add(replacer);
+            }
+        }
+        return citiesInPolandList;
+    }
+
+
+
 }
