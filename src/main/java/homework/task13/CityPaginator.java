@@ -14,6 +14,7 @@ public class CityPaginator {
         this.cities = cities;
         this.pageSize = pageSize;
         this.page = 1;
+        //int numberOfPages =
     }
 
     public void setPage(int page) {
