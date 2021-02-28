@@ -1,8 +1,11 @@
 package homework.task14;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class AddressItem {
+public class AddressItem implements Serializable {
+    private static final long serialVersionUID = 8524163652131434056L;
+
     final String name;
     final String fullName;
     final String emailAddress;
@@ -35,5 +38,16 @@ public class AddressItem {
 
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    @Override
+    public String toString() {
+        return "AddressItem{" +
+                "name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
