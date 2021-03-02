@@ -6,9 +6,7 @@ import anonymous.MenuItem;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Napisz program, który obsługuje książkę adresową zapisywaną w pliku.
@@ -22,7 +20,9 @@ import java.util.Scanner;
  */
 public class Task14B {
     static Scanner scanner = new Scanner(System.in);
+    static String path = "address.txt";
     public static void main(String[] args){
+
         AddressItem addressItem1 = new AddressItem("Andrzej", "Kowalski", "mail@o.pl", "666000111", LocalDate.of(1980,1,1));
         AddressItem addressItem2 = new AddressItem("Piotr", "Iksiński", "pi@onet.pl", "654852154", LocalDate.of(1989,12,3));
         AddressItem addressItem3 = new AddressItem("Ewelina", "Kotarska", "aa@aa.pl", "658425411", LocalDate.of(1999,4,8));
@@ -36,7 +36,7 @@ public class Task14B {
         addresses.add(addressItem4);
         addresses.add(addressItem5);
 
-        try(ObjectOutputStream newStream = new ObjectOutputStream(new FileOutputStream("address.txt"))) {
+        try(ObjectOutputStream newStream = new ObjectOutputStream(new FileOutputStream(path))) {
             for(AddressItem address: addresses) {
                 newStream.writeObject(address);
             }
@@ -49,7 +49,7 @@ public class Task14B {
         MenuItem addNewAddress = new MenuItem("Dodaj adres", 1);
         MenuItem deleteAddress = new MenuItem("Usuń adres", 2);
         MenuItem showAddresses = new MenuItem("Pokaż wszystko", 3);
-        MenuItem searchForAddress = new MenuItem(("Znajdź adres"), 4);
+        MenuItem searchForAddress = new MenuItem(("Znajdź adres wg pola name lub phone number"), 4);
         MenuItem exitFromProgram = new MenuItem(("Wyjście z programu"), 5);
 
         addNewAddress.setCallback(new Callback() {
@@ -82,25 +82,100 @@ public class Task14B {
             }
         });
 
+        deleteAddress.setCallback(new Callback() {
+            @Override
+            public void action() {
+                System.out.println("Dostępne adresy w bazie: ");
+                showAllAddresses(path);
+                System.out.print("Podaj ID adresu do usunięcia (Wpisz 0 aby anulować): ");
+                scanner.nextLine();
+                String userInput = scanner.nextLine();
+
+                if(userInput.equals("0")) {
+                    System.out.println("Anulowano. Wracam do menu.");
+                } else {
+                    List<AddressItem> objectsList = new ArrayList<>();
+                    AddressItem addressItem;
+                    //deserializacja
+                    try(ObjectInputStream newStream = new ObjectInputStream(new FileInputStream(path))) {
+                        while((addressItem = (AddressItem) newStream.readObject()) != null) {
+                            objectsList.add(addressItem);
+                        }
+                    } catch (FileNotFoundException e) {
+                        System.out.println("FileNotFoundException");
+                    } catch (IOException e) {
+                        System.out.println("IOException");
+                    } catch (ClassCastException e) {
+                        System.out.println("ClassCastException");
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    ListIterator<AddressItem> iterator = objectsList.listIterator();
+                    while (iterator.hasNext()) {
+                        AddressItem item = iterator.next();
+                        if(Integer.parseInt(userInput) == item.getId()) {
+                            iterator.remove();
+                            System.out.println("Adres usunięty poprawnie!");
+                        }
+                    }
+
+                    try(ObjectOutputStream streamAddAfterDelete = new ObjectOutputStream(new FileOutputStream(path))) {
+                        for(AddressItem address: objectsList) {
+                            streamAddAfterDelete.writeObject(address);
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Aktualna baza:");
+                    showAllAddresses(path);
+                }
+            }
+        });
+
+        searchForAddress.setCallback(new Callback() {
+            @Override
+            public void action() {
+                System.out.print("Wyszukiwarka. Podaj imię lub numer telefonu: ");
+                scanner.nextLine();
+                String userSearchInput = scanner.nextLine();
+                List<AddressItem> objectsListToSearch = new ArrayList<>();
+                AddressItem addressItemToSearch;
+                try(ObjectInputStream streamSearch = new ObjectInputStream(new FileInputStream(path))) {
+                    while((addressItemToSearch = (AddressItem) streamSearch.readObject()) != null) {
+                        objectsListToSearch.add(addressItemToSearch);
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("FileNotFoundException");
+                } catch (IOException e) {
+                    System.out.print("");
+                } catch (ClassCastException e) {
+                    System.out.println("ClassCastException");
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                ListIterator<AddressItem> iterator = objectsListToSearch.listIterator();
+                System.out.println("+- Wyniki wyszukiwania: ------------+--------------------------------+-----------+------------+");
+                System.out.println("+----+------------+-----------------+--------------------------------+-----------+------------+");
+                while (iterator.hasNext()) {
+                    AddressItem item = iterator.next();
+                    if(item.getName().equals(userSearchInput) || item.getPhoneNumber().equals(userSearchInput)) {
+                        System.out.format("| %-2s | %-10s | %-15s | %-30s | %-9s | %-10s |", item.getId(), item.getName(), item.getFullName(), item.getEmailAddress(), item.getPhoneNumber(), item.getBirthDate());
+                        System.out.println();
+                        System.out.println("+----+------------+-----------------+--------------------------------+-----------+------------+");
+                    }
+                }
+
+            }
+        });
+
         showAddresses.setCallback(new Callback() {
             @Override
             public void action() {
-                try(ObjectInputStream newStream = new ObjectInputStream(new FileInputStream("address.txt"))) {
-                    Object tempObj = null;
-
-                    try {
-                        while ((tempObj = newStream.readObject()) != null) {
-                            System.out.println(((AddressItem) tempObj).toString());
-                        }
-                    } catch (EOFException e) {
-                        System.out.println("====Koniec pliku====");
-                    }
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException | IOException e) {
-                    e.printStackTrace();
-                }
+                showAllAddresses(path);
             }
         });
 
@@ -111,12 +186,32 @@ public class Task14B {
             }
         });
 
-        Menu menu = new Menu(new MenuItem[]{addNewAddress, showAddresses, exitFromProgram});
+        Menu menu = new Menu(new MenuItem[]{addNewAddress, deleteAddress, showAddresses, searchForAddress, exitFromProgram});
         while(true) {
             menu.print();
             System.out.print("Twój wybór: ");
             int itemNumber = scanner.nextInt();
             menu.process(itemNumber);
         }
+    }
+
+    public static void showAllAddresses(String filePath) {
+        try(ObjectInputStream newStream = new ObjectInputStream(new FileInputStream(filePath))) {
+            Object tempObj = null;
+
+            try {
+                while ((tempObj = newStream.readObject()) != null) {
+                    System.out.println(((AddressItem) tempObj).toString());
+                }
+            } catch (EOFException e) {
+                System.out.println("====Koniec pliku====");
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
