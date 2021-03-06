@@ -2,6 +2,7 @@ package homework.task14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * CZĘŚĆ 1
@@ -25,10 +26,15 @@ public class Task14A {
         //dwie sa konieczne ponieważ każdy pakiet to katalog, a mamy pakiet task14 w pakiecie homework
 
         List<String> outputList = new ArrayList<>();
+        int words4CountLambda = 0;
+        List<String> words4letters = new ArrayList<>();
         try(BufferedReader bufferedInput = new BufferedReader(new InputStreamReader(input))) {
             String line;
+
             while((line = bufferedInput.readLine()) != null) {
                 outputList.add(line);
+                words4letters = Arrays.stream(line.split(" ")).filter(l -> l.length() == 3 && l.matches("\\w+")).collect(Collectors.toList());
+                words4CountLambda += words4letters.size();
             }
         } catch (FileNotFoundException e) {
             System.out.println("Nie znaleziono pliku");
@@ -63,6 +69,18 @@ public class Task14A {
             linesCounter++;
         }
 
+//        //sposób z lambda
+//        int wordsWith4LettersCounter2 = 0;
+//        Iterator iterator2 = outputList.iterator();
+//        String liner;
+//
+//        while(iterator2.hasNext()) {
+//            liner = iterator2.next().toString();
+//            List<String> words4letters = Arrays.stream(liner.split(" ")).filter(l -> l.length() == 3).collect(Collectors.toList());
+//            wordsWith4LettersCounter2 += words4letters.size();
+//        }
+
+
         List<String> inputList = Arrays.asList("Ilość wyrazów: " + wordsCounter,
                 "Ilość linii: " + linesCounter,
                 "Ilość wyrazów 4-literowych: " + wordsWith4LettersCounter,
@@ -74,7 +92,7 @@ public class Task14A {
                 printer.println(name);
             }
             printer.println("===============\nLista wyrazów 4-literowych:\n");
-            for(String a: wordsWith4CharList){
+            for(String a: words4letters){
                 printer.print(a + " ");
             }
             printer.println("\n===============\nLista liczb:\n");
@@ -87,7 +105,7 @@ public class Task14A {
 
         System.out.println("Ilość wyrazóe: " + wordsCounter);
         System.out.println("Ilość linii: " + linesCounter);
-        System.out.println("Ilość wyrazów 4-literowych: " + wordsWith4LettersCounter);
+        System.out.println("Ilość wyrazów 4-literowych: " + words4CountLambda);
         System.out.println("liczbę słów, które są liczbami: " + digitsCounter);
     }
 }

@@ -1,14 +1,16 @@
 package homework.task12;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 public class Dish implements Ingredient{
-    List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
     final String name;
 
     public Dish(String name) {
         this.name = name;
+        this.ingredients = new ArrayList<>();
     }
 
     public Dish(String name, List<Ingredient> ingredients) {
@@ -17,11 +19,11 @@ public class Dish implements Ingredient{
     }
 
     public void addIngredient (Ingredient ingredient) {
-        ingredients.add(ingredient);
+        this.ingredients.add(ingredient);
     }
 
     public List<Ingredient> ingredients() {
-        List<Ingredient> ingerdientsList = ingredients;
+        List<Ingredient> ingerdients = ingredients;
         return ingredients;
     }
 

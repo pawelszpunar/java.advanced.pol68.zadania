@@ -37,6 +37,11 @@ public class Task12 {
         pizza.addTomato(tomato);
         System.out.println(pizza.isReady());
 
+        Dish dish = new Dish("danie");
+        dish.addIngredient(tomato);
+        System.out.println(dish.calories());
+
+
 
     }
 }

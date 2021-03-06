@@ -89,6 +89,7 @@ public class CityPaginator {
     public List<City> showPage(Collection<City> cities, int page) {
         if (page < 0 || page > numberOfPages(cities)) {
             System.out.println("Błędny numer strony, otwieram stronę nr 1.");
+            page = 1;
         }
         int pageBeginFrom = ((page - 1) * pageSize) + 1;
         int pageEnd = page * pageSize;
